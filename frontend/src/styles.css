@@ -574,3 +574,11 @@ body {
   border: 1px solid rgba(255,255,255,0.7);
   box-shadow: 0 24px 60px -20px rgba(76,29,149,0.38), inset 0 1px 0 rgba(255,255,255,0.9);
 }
+
+/* ==================== LAYOUT FIXES ==================== */
+/* Wider container -> less empty space on large screens */
+.container { max-width: 1300px; }
+
+/* Chart cards: equal height (aligned bottoms) + clear gap before the Entries card */
+.charts-area { align-items: stretch; margin-bottom: 16px; }
+.charts-area .card { margin-bottom: 0; height: 100%; }
