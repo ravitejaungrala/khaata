@@ -9,7 +9,6 @@ export function AuthScreen({ onAuth }: { onAuth: (user: User) => void }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  // Holds the freshly-registered user so we can show their Login ID before entering.
   const [registered, setRegistered] = useState<User | null>(null);
 
   const submit = async (e: React.FormEvent) => {
@@ -24,7 +23,7 @@ export function AuthScreen({ onAuth }: { onAuth: (user: User) => void }) {
       } else {
         const res = await api.register(name, identifier, password);
         setToken(res.access_token);
-        setRegistered(res.user); // show the Login ID, then continue
+        setRegistered(res.user);
       }
     } catch (err) {
       setError(
@@ -39,23 +38,18 @@ export function AuthScreen({ onAuth }: { onAuth: (user: User) => void }) {
   if (registered) {
     return (
       <div className="auth-wrap">
-        <div className="auth-card" style={{ textAlign: "center" }}>
+        <div className="auth-done">
           <div className="eyebrow">ACCOUNT CREATED</div>
-          <h1>Welcome, {registered.name.split(" ")[0]}</h1>
-          <div className="subtitle" style={{ marginBottom: 18 }}>
+          <h2 className="done-title">Welcome, {registered.name.split(" ")[0]}</h2>
+          <p className="done-sub">
             This is your Login ID. You can sign in with{" "}
             <strong>either your email or this ID.</strong>
-          </div>
+          </p>
           <div className="login-id-badge">{registered.login_code}</div>
-          <div className="save-note" style={{ marginTop: 14 }}>
-            Note it down — e.g. next time just type{" "}
-            <strong>{registered.login_code}</strong> and your password.
-          </div>
-          <button
-            className="full-btn"
-            onClick={() => onAuth(registered)}
-            style={{ marginTop: 20 }}
-          >
+          <p className="save-note">
+            Note it down — next time just type <strong>{registered.login_code}</strong> and your password.
+          </p>
+          <button className="full-btn" onClick={() => onAuth(registered)}>
             Continue to my ledger
           </button>
         </div>
@@ -65,74 +59,102 @@ export function AuthScreen({ onAuth }: { onAuth: (user: User) => void }) {
 
   return (
     <div className="auth-wrap">
-      <div className="auth-card">
-        <div className="eyebrow">MONTHLY LEDGER · PERSONAL ACCOUNT</div>
-        <h1>Khaata</h1>
-        <div className="subtitle">
-          {isLogin
-            ? "Welcome back. Sign in with your email or Login ID."
-            : "Create an account to start tracking."}
-        </div>
+      <div className="auth-split">
+        <aside className="auth-brand">
+          <span className="brand-blob b1" />
+          <span className="brand-blob b2" />
+          <span className="brand-blob b3" />
+          <div className="auth-brand-inner">
+            <div className="brand-eyebrow">PERSONAL FINANCE · KHAATA</div>
+            <h1 className="brand-title">Money, made clear.</h1>
+            <p className="brand-tagline">
+              Track what comes in, what goes out, and what stays — with a ledger
+              that does the heavy lifting for you.
+            </p>
+            <ul className="brand-features">
+              <li>
+                <span className="tick">✓</span> Log by chat, voice, or a photo of your receipt
+              </li>
+              <li>
+                <span className="tick">✓</span> Monthly &amp; yearly insights at a glance
+              </li>
+              <li>
+                <span className="tick">✓</span> Export a clean PDF statement anytime
+              </li>
+            </ul>
+          </div>
+        </aside>
 
-        <form onSubmit={submit}>
-          {!isLogin && (
-            <>
-              <label className="field-label">Name</label>
-              <input
-                className="form-input"
-                style={{ marginTop: 0 }}
-                type="text"
-                placeholder="Your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </>
-          )}
+        <section className="auth-form-side">
+          <div className="form-head">
+            <h2>{isLogin ? "Sign in" : "Create your account"}</h2>
+            <p>
+              {isLogin
+                ? "Welcome back. Use your email or Login ID."
+                : "Start tracking in under a minute."}
+            </p>
+          </div>
 
-          <label className="field-label">
-            {isLogin ? "Email or Login ID" : "Email"}
-          </label>
-          <input
-            className="form-input"
-            style={{ marginTop: 0 }}
-            type={isLogin ? "text" : "email"}
-            placeholder={isLogin ? "you@example.com  or  016" : "you@example.com"}
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-            required
-          />
+          <form onSubmit={submit}>
+            {!isLogin && (
+              <>
+                <label className="field-label">Name</label>
+                <input
+                  className="form-input"
+                  style={{ marginTop: 0 }}
+                  type="text"
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </>
+            )}
 
-          <label className="field-label">Password</label>
-          <input
-            className="form-input"
-            style={{ marginTop: 0 }}
-            type="password"
-            placeholder={isLogin ? "Your password" : "At least 6 characters"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            minLength={6}
-            required
-          />
+            <label className="field-label">
+              {isLogin ? "Email or Login ID" : "Email"}
+            </label>
+            <input
+              className="form-input"
+              style={{ marginTop: 0 }}
+              type={isLogin ? "text" : "email"}
+              placeholder={isLogin ? "you@example.com  or  016" : "you@example.com"}
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              required
+            />
 
-          {error && <div className="auth-error">{error}</div>}
+            <label className="field-label">Password</label>
+            <input
+              className="form-input"
+              style={{ marginTop: 0 }}
+              type="password"
+              placeholder={isLogin ? "Your password" : "At least 6 characters"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              minLength={6}
+              required
+            />
 
-          <button className="full-btn" type="submit" disabled={busy}>
-            {busy ? "Please wait…" : isLogin ? "Sign in" : "Create account"}
-          </button>
-        </form>
+            {error && <div className="auth-error">{error}</div>}
 
-        <div className="auth-switch">
-          {isLogin ? "New here? " : "Already have an account? "}
-          <button
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setError("");
-            }}
-          >
-            {isLogin ? "Create an account" : "Sign in"}
-          </button>
-        </div>
+            <button className="full-btn" type="submit" disabled={busy}>
+              {busy ? "Please wait…" : isLogin ? "Sign in" : "Create account"}
+            </button>
+          </form>
+
+          <div className="auth-switch">
+            {isLogin ? "New here? " : "Already have an account? "}
+            <button
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setError("");
+              }}
+            >
+              {isLogin ? "Create an account" : "Sign in"}
+            </button>
+          </div>
+        </section>
       </div>
     </div>
   );

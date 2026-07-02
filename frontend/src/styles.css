@@ -582,3 +582,61 @@ body {
 /* Chart cards: equal height (aligned bottoms) + clear gap before the Entries card */
 .charts-area { align-items: stretch; margin-bottom: 16px; }
 .charts-area .card { margin-bottom: 0; height: 100%; }
+
+/* ==================== SPLIT AUTH (professional login) ==================== */
+.auth-wrap {
+  min-height: 100svh; display: flex; align-items: center; justify-content: center; padding: 24px;
+  background:
+    radial-gradient(720px 520px at 14% 18%, rgba(139,92,246,0.55), transparent 60%),
+    radial-gradient(720px 520px at 90% 92%, rgba(76,29,149,0.6), transparent 60%),
+    linear-gradient(150deg, #6D28D9 0%, #4C1D95 55%, #33115F 100%);
+}
+
+.auth-split {
+  display: flex; width: 100%; max-width: 940px; min-height: 540px;
+  background: #ffffff; border-radius: 22px; overflow: hidden;
+  box-shadow: 0 44px 100px -34px rgba(28,8,58,0.65), 0 8px 24px -12px rgba(28,8,58,0.4);
+}
+
+/* Left brand panel */
+.auth-brand {
+  flex: 1.05; position: relative; overflow: hidden; color: #F5F1FF;
+  padding: 54px 46px; display: flex; flex-direction: column; justify-content: center;
+  background: linear-gradient(155deg, #7C3AED 0%, #5B21B6 58%, #4C1D95 100%);
+}
+.auth-brand-inner { position: relative; z-index: 2; }
+.brand-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; opacity: .82; margin-bottom: 14px; }
+.brand-title { font-family: 'Special Elite', cursive; font-size: 40px; line-height: 1.1; color: #ffffff; margin: 0 0 14px; letter-spacing: .5px; }
+.brand-tagline { font-size: 14.5px; line-height: 1.65; color: rgba(245,241,255,0.9); margin: 0 0 28px; max-width: 330px; }
+.brand-features { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 13px; }
+.brand-features li { display: flex; align-items: flex-start; gap: 11px; font-size: 13.5px; line-height: 1.4; color: rgba(245,241,255,0.94); }
+.brand-features .tick {
+  flex-shrink: 0; width: 21px; height: 21px; border-radius: 50%; background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; margin-top: 1px;
+}
+.brand-blob { position: absolute; border-radius: 50%; z-index: 1; }
+.brand-blob.b1 { width: 240px; height: 240px; background: radial-gradient(circle at 32% 30%, #A78BFA, #7C3AED); top: -70px; left: -80px; opacity: .5; }
+.brand-blob.b2 { width: 170px; height: 170px; background: radial-gradient(circle at 32% 30%, #C4B5FD, #8B5CF6); bottom: -56px; right: -46px; opacity: .45; }
+.brand-blob.b3 { width: 96px; height: 96px; background: radial-gradient(circle at 32% 30%, #DDD6FE, #A78BFA); bottom: 78px; left: 46px; opacity: .38; }
+
+/* Right form panel */
+.auth-form-side { flex: 1; padding: 54px 48px; display: flex; flex-direction: column; justify-content: center; background: #ffffff; }
+.form-head h2 { font-family: 'Special Elite', cursive; font-size: 26px; color: #1B1130; margin: 0 0 4px; }
+.form-head p { font-size: 13px; color: #6B6478; margin: 0 0 22px; }
+.auth-form-side .form-input { background: #F7F5FC; border: 1px solid #E4DEF3; box-shadow: none; }
+.auth-form-side .form-input:focus { background: #ffffff; border-color: #7C3AED; box-shadow: 0 0 0 3px rgba(124,58,237,0.16); }
+.auth-form-side .auth-switch button { color: #6D28D9; }
+
+/* Post-registration card */
+.auth-done {
+  background: #ffffff; border-radius: 20px; padding: 40px 34px; width: 100%; max-width: 420px; text-align: center;
+  box-shadow: 0 40px 90px -30px rgba(28,8,58,0.6);
+}
+.done-title { font-family: 'Special Elite', cursive; font-size: 26px; color: #1B1130; margin: 6px 0 6px; }
+.done-sub { font-size: 13.5px; color: #6B6478; line-height: 1.55; margin: 0 0 18px; }
+
+@media (max-width: 760px) {
+  .auth-brand { display: none; }
+  .auth-split { max-width: 430px; min-height: auto; border-radius: 18px; }
+  .auth-form-side { padding: 38px 28px; }
+}
